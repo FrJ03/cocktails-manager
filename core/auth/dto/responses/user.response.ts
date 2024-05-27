@@ -14,7 +14,8 @@ const UserResponse = {
         id: user.id,
         username: user.username,
         password: user.password,
-    })
+    }),
+    with: (properties: UserResponse) => properties,
 }
 
 export { UserResponse}
