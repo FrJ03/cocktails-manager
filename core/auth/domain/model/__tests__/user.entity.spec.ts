@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { User } from '../user.entity'
 import { Email } from '../value-objects/email'
 
-describe('User', () => {
+describe('User entity', () => {
     describe('Create', () => {
         it('Constructor', () => {
             const id = '1'
