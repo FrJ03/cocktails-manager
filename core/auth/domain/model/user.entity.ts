@@ -13,10 +13,10 @@ export class User{
         username: string,
         email: string,
         password: string
-    ): User | null{
+    ): User | undefined{
         const newEmail = Email.create(email)
-        if(newEmail === null){
-            return null
+        if(newEmail === undefined){
+            return undefined
         }
         else{
             return new User(id, username, newEmail, password)

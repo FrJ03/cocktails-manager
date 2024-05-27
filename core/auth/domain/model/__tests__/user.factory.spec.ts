@@ -29,7 +29,7 @@ describe('User factory', () => {
 
             const user = userFactory.create(userResponse)
 
-            expect(user).toBe(null)
+            expect(user).toBe(undefined)
         })
     })
 })

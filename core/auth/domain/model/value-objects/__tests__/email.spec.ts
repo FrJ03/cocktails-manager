@@ -16,28 +16,28 @@ describe('Email', () => {
 
             const email = Email.create(invalidEmail)
 
-            expect(email).toBe(null)
+            expect(email).toBe(undefined)
         })
         it('Incorrect email: without @', () => {
             const invalidEmail = 'example.es'
 
             const email = Email.create(invalidEmail)
 
-            expect(email).toBe(null)
+            expect(email).toBe(undefined)
         })
         it('Incorrect email: without .', () => {
             const invalidEmail = 'example@example'
 
             const email = Email.create(invalidEmail)
 
-            expect(email).toBe(null)
+            expect(email).toBe(undefined)
         })
         it('Incorrect email: ending with .', () => {
             const invalidEmail = 'example@example.'
 
             const email = Email.create(invalidEmail)
 
-            expect(email).toBe(null)
+            expect(email).toBe(undefined)
         })
     })
 })

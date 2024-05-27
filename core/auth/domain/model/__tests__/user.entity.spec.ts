@@ -40,7 +40,7 @@ describe('User entity', () => {
 
             const user = User.create(id, username, email, password)
 
-            expect(user).toBe(null)
+            expect(user).toBe(undefined)
         })
     })
 })
