@@ -1,6 +1,6 @@
 import mongoose, { ObjectId } from 'mongoose'
 
-export interface UserRawData{
+export interface UserType{
     _id: ObjectId
     username: string,
     email: string,
@@ -13,6 +13,6 @@ const UserSchema = new mongoose.Schema({
     password: String
 })
 
-const UserMongo = mongoose.model<UserRawData>('User', UserSchema) 
+const UserMongo = mongoose.model<UserType>('User', UserSchema) 
 
 export { UserMongo, UserSchema } 
