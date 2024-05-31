@@ -33,9 +33,6 @@ test.describe('Login tests', () => {
         await page.getByTestId('email-input').fill('test@test.es')
         await page.getByTestId('password-input').fill('test')
         await page.getByTestId('log-button').click()
-        await page.reload()
-
-        console.log(await page.content())
 
         expect(await page.getByTestId('log-button')).toBeVisible()
     })
