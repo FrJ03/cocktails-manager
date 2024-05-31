@@ -20,6 +20,7 @@ export default function AuthFormBody(properties: AuthFormBodyProperties){
         <>
             <CardBody className="flex-col content-center w-full">
                 <Input
+                    data-testid='email-input'
                     fullWidth={true}
                     type="email"
                     label="Email"
@@ -28,6 +29,7 @@ export default function AuthFormBody(properties: AuthFormBodyProperties){
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => properties.onChangeEmail(event.target.value)}
                 />
                 <Input
+                    data-testid='password-input'
                     fullWidth={true}
                     label="Password"
                     variant="bordered"

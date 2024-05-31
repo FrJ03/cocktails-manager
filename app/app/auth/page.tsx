@@ -49,6 +49,6 @@ export default function Auth(){
             )
         :
             (
-                <p>logged {username}</p>
+                <p data-testid='logged-message'>logged {username}</p>
             )
 }
