@@ -1,5 +1,10 @@
 import React from "react";
-export const ClosedEye = ({className}) => (
+
+interface ClosedEyeProps{
+  className: string
+}
+
+export const ClosedEye = ({className}: ClosedEyeProps) => (
   <svg
     aria-hidden="true"
     fill="none"

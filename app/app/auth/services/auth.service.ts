@@ -41,3 +41,4 @@ const auth = async (email: string, password: string): Promise<AuthData> => {
 }
 
 export { auth }
+export type {AuthData}

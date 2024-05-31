@@ -20,8 +20,8 @@ export default function Auth(){
     }, [])
 
     const onSubmit = async (email: string, password: string) => {
-        const res = await AuthService.auth(email, password)
-        if(res.code === 200 && res.token !== undefined && res.user !== undefined){
+        const res: AuthService.AuthData = await AuthService.auth(email, password)
+        if(res.code === 200 && res.token !== undefined && res.user !== undefined && res.user.username !== undefined && res.user.email !== undefined){
             setToken(res.token)
             setUsername(res.user.username)
             setEmail(res.user.email)

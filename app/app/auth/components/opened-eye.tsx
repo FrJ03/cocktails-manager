@@ -1,5 +1,10 @@
 import React from "react";
-export const OpenedEye = ({className}) => (
+
+interface OpenedEyeProps{
+  className: string
+}
+
+export const OpenedEye = ({className}: OpenedEyeProps) => (
   <svg
     aria-hidden="true"
     fill="none"
