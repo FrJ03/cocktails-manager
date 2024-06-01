@@ -1,6 +1,6 @@
 import { CardHeader } from "@nextui-org/card";
-import Image from "next/image";
-import logo from "@/public/logo.svg"
+import logo from "/logo.svg"
+import { Image } from "@nextui-org/image";
 
 export default function AuthFormHeader(){
     return (
@@ -10,7 +10,7 @@ export default function AuthFormHeader(){
                 <Image
                     src={logo}
                     alt='Cocktail Manager logo'
-                    layout="responsive"
+                    width={400}
                 /></div>
                 <h1 className="text-4xl">
                     <strong>Sign Up</strong>

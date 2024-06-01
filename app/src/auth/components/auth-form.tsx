@@ -20,7 +20,7 @@ export default function AuthForm(properties: AuthFormProperties){
     }
 
     return (
-            <Card className='flex-col max-w-[400px]'>
+            <Card className='flex-col max-w-[400px] '>
                 <AuthFormHeader/>
                 <AuthFormBody
                     email={email}
