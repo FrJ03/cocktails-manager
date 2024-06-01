@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ENV=prod ts-node server.ts",
+    "start": "ENV=prod node ./dist/server.js",
     "build": "tsc",
     "dev": "ENV=dev nodemon server.ts",
     "test": "ENV=test vitest",
