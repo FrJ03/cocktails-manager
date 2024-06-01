@@ -6,7 +6,10 @@
   "scripts": {
     "client": "cd app && npm run dev",
     "server": "cd core && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build:server": "cd code && npm i",
+    "build:client": "cd app && npm i",
+    "build": "concurrently \"npm run build:server\" \"npm run build:client\""
   },
   "keywords": [],
   "author": "",
