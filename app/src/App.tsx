@@ -1,15 +1,15 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate, HashRouter } from 'react-router-dom'
 import Auth from './auth/page'
 
 function App() {
   return (
     <>
-      <Router>
+      <HashRouter>
         <Routes>
           <Route index element={<Navigate to="/auth" replace/>}/>
           <Route path="/auth" element={<Auth/>} />
         </Routes>
-      </Router>
+      </HashRouter>
     </>
   )
 }
