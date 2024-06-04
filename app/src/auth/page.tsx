@@ -2,12 +2,15 @@
 import { useEffect, useState } from "react";
 import AuthForm from "./components/auth-form";
 import * as AuthService from './services/auth.service'
+import { useNavigate } from "react-router-dom";
 
 export default function Auth(){
     const [token, setToken] = useState('')
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -40,6 +43,14 @@ export default function Auth(){
         }
     }
 
+    const logoutHandler = () => {
+        window.localStorage.removeItem('loggedUser')
+        setToken('')
+        setUsername('')
+        setEmail('')
+        navigate('/auth')
+    }
+
     return token === '' || username === '' || email === '' ?
             (
                 <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -49,6 +60,9 @@ export default function Auth(){
             )
         :
             (
-                <p data-testid='logged-message'>logged {username}</p>
+                <>
+                    <p data-testid='logged-message'>logged {username}</p>
+                    <button onClick={logoutHandler} className="text-white bg-main-color hover:bg-horved-main-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Logout</button>
+                </>
             )
 }
