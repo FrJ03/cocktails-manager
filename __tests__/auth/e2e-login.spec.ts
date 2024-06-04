@@ -2,6 +2,11 @@ import { expect, test} from "@playwright/test";
 import axios from 'axios'
 
 test.describe('Login tests', () => {
+
+    const port = 5173
+    const baseUrl = 'http://localhost'
+    const url = `${baseUrl}:${port}`
+
     test.beforeAll(async () => {
         const userData = {
             username: 'test',
@@ -9,16 +14,15 @@ test.describe('Login tests', () => {
             password: 'test'
         }
 
-        await axios.post('http://localhost:4000/api/test/auth', userData)
+        await axios.post(`${baseUrl}:4000/api/test/auth`, userData)
     })
     test('Checking redirection', async ({page}) => {
-        await page.goto('http://localhost:3000')
+        await page.goto(url)
 
-        expect(page.url()).toBe('http://localhost:3000/auth')
-
+        expect(await page.url()).toBe(`${url}/#/auth`)
     })
     test('Wrong user data', async ({page}) => {
-        await page.goto('http://localhost:3000/auth')
+        await page.goto(`${url}/auth`)
 
         await page.getByTestId('email-input').fill('wrong@email.es')
         await page.getByTestId('password-input').fill('test')
@@ -28,7 +32,7 @@ test.describe('Login tests', () => {
     })
     test('Correct user data', async ({page, context}) => {
 
-        await page.goto('http://localhost:3000/auth')
+        await page.goto(`${url}/auth`)
 
         await page.getByTestId('email-input').fill('test@test.es')
         await page.getByTestId('password-input').fill('test')
@@ -40,6 +44,6 @@ test.describe('Login tests', () => {
         await context.clearCookies({name: 'loggedUser'})
     })
     test.afterAll(async () => {
-        await axios.delete('http://localhost:4000/api/test/auth')
+        await axios.delete(`${baseUrl}:4000/api/test/auth`)
     })
 })
