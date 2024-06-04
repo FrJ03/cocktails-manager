@@ -61,8 +61,12 @@ export default function Auth(){
         :
             (
                 <>
-                    <p data-testid='logged-message'>logged {username}</p>
-                    <button onClick={logoutHandler} className="text-white bg-main-color hover:bg-horved-main-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Logout</button>
+                    <p>logged {username}</p>
+                    <button 
+                        data-testid='logout-button'
+                        onClick={logoutHandler}
+                        className="text-white bg-main-color hover:bg-horved-main-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
+                    >Logout</button>
                 </>
             )
 }

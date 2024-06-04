@@ -9,7 +9,7 @@ interface AuthData{
     code: number
 }
 
-const baseUrl: string = '/api/login'
+const baseUrl: string = 'http://localhost:4000/api/login'
 
 const auth = async (email: string, password: string): Promise<AuthData> => {
     try {
