@@ -15,7 +15,6 @@
 1. [Purpose](#purpose)
 1. [Requeriments](#requeriments)
 1. [Technologies](#technologies)
-1. [License](#license)
 
 <a name="purpose"></a>
 ## Purpose
@@ -37,6 +36,3 @@ The purpose of this project is to make a coctails receipes manager that save thi
     - **Using Containers**
         - **Docker**
         - **Kubernetes**
-<a name="license"></a>
-## License
-[![Licence](https://img.shields.io/badge/LICENSE-BSD_v3.0-green)](./LICENSE)
