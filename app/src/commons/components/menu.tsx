@@ -12,7 +12,7 @@ import icon from "/icon.svg"
 import menu from '/menu-icon.svg'
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Link } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 
 export default function Menu(){
     const [token, setToken] = useState('')
@@ -31,7 +31,7 @@ export default function Menu(){
             setToken(userLogged.token)
         }
         else{
-            navigate('/auth')
+            //navigate('/auth')
         }
     }, [])
 
@@ -50,7 +50,7 @@ export default function Menu(){
                     />
 
     return (
-        <Navbar isBordered onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
+        <Navbar className="shadow-md" isBordered onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
             <NavbarContent>
                 <NavbarMenuToggle
                     icon={menuIcon}
@@ -65,7 +65,7 @@ export default function Menu(){
                     />
                 </NavbarBrand>
             </NavbarContent>
-            <NavbarContent className="hidden sm:flex gap-4" justify="center">
+            <NavbarContent className="hidden sm:flex gap-4 p-2 rounded-t-xl hover:bg-main-color hover:text-white" justify="center">
                 <NavbarItem>
                     <Link underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
                         Cocktails
