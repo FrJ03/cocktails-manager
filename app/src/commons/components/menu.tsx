@@ -10,7 +10,7 @@ import {
 import { Image } from "@nextui-org/image";
 import icon from "/icon.svg"
 import menu from '/menu-icon.svg'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "@nextui-org/react";
 
@@ -21,19 +21,6 @@ export default function Menu(){
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
     const navigate = useNavigate()
-
-    useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedUser')
-        if (loggedUserJSON) {
-            const userLogged = JSON.parse(loggedUserJSON)
-            setUsername(userLogged.username)
-            setEmail(userLogged.email)
-            setToken(userLogged.token)
-        }
-        else{
-            //navigate('/auth')
-        }
-    }, [])
 
     const logoutHandler = () => {
         window.localStorage.removeItem('loggedUser')
