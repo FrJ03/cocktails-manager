@@ -1,5 +1,6 @@
 import Menu from '../commons/components/menu'
 import SearchBar from '../commons/components/searchBar'
+import CocktailsContent from './components/cocktails-content'
 
 export default function Cocktails (){
     return (
@@ -8,7 +9,7 @@ export default function Cocktails (){
             <div className="flex justify-center m-5">
                 <SearchBar/>
             </div>
-            <p>CocktailsView</p>
+            <CocktailsContent/>
         </>
     )
 }
