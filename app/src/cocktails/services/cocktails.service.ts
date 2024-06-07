@@ -10,10 +10,15 @@ interface CocktailsGetAllResponse{
     ]
 }
 
-const getAll = async (token: string): Promise<CocktailsGetAllResponse> => {
-    const response = await axios.get(baseUrl, {headers: {authorization: token}})
+const getAll = async (token: string): Promise<CocktailsGetAllResponse | undefined> => {
+    try {
+        const response = await axios.get(baseUrl, {headers: {authorization: token}})
 
-    return response.data as CocktailsGetAllResponse
+        return response.data as CocktailsGetAllResponse
+    } catch (error: any) {
+        console.error(error.response.status)
+    }
+    
 }
 
 export { getAll }
