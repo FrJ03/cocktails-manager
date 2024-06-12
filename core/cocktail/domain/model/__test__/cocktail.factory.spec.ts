@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { CocktailFactory } from '../cocktail.factory'
 import { CocktailType } from '../../../infrastructure/persistence/cocktail.type';
-import { Cocktail } from '../cocktail.entity';
+import { CocktailResponse } from '../../../dto/response/cocktail.response';
 
 describe('cocktail factory test', () => {
     it('from type', () => {
@@ -9,7 +9,7 @@ describe('cocktail factory test', () => {
             id: 'cocktail-id',
             name: 'cocktail-name',
             image: 'cocktail-image'
-        } as CocktailType
+        } as CocktailResponse
 
         const cocktail = CocktailFactory.create(cocktailData)
 
