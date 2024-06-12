@@ -41,7 +41,9 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const config = __importStar(require("./commons/utils/config"));
 const login_api_1 = require("./auth/infrastructure/api/login.api");
+const cocktails_api_1 = require("./cocktail/infrastructure/api/cocktails.api");
 const auth_test_api_1 = require("./auth/infrastructure/api/auth-test.api");
+const user_authentication_1 = require("./commons/utils/middlewares/user-authentication");
 const app = (0, express_1.default)();
 exports.app = app;
 app.use((0, cors_1.default)());
@@ -49,6 +51,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.static('dist'));
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/api/login', login_api_1.LoginRouter);
+app.use('/api/cocktails', user_authentication_1.userAuthorization, cocktails_api_1.CocktailsRouter);
 if (config.ENV === 'test') {
     app.use('/api/test/auth', auth_test_api_1.AuthTestRouter);
 }
