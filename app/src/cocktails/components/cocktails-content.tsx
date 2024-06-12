@@ -1,44 +1,14 @@
 import CocktailCard from './cocktail-card'
 
-export default function CocktailsContent(){
-    const cocktails = [
-        {
-            id: '1',
-            name: 'cocktail test',
-            image: 'https://media.istockphoto.com/id/916049866/es/foto/margarita-cl%C3%A1sico-coctel-con-cal.jpg?s=612x612&w=0&k=20&c=dfH8w6bPAFoLNwWBUHOFMWWcUvN52EBiiL07hkLglAI='
-        },
-        {
-            id: '1',
-            name: 'cocktail test',
-            image: 'https://media.istockphoto.com/id/502072256/photo/craft-cocktail-assortment-on-well-lit-bar.jpg?s=612x612&w=0&k=20&c=zmxOgUMZW1kB--D-g8RABi391Ma39zemxeUyjWFb7R0='
-        },
-        {
-            id: '1',
-            name: 'cocktail test',
-            image: 'https://media.istockphoto.com/id/502072256/photo/craft-cocktail-assortment-on-well-lit-bar.jpg?s=612x612&w=0&k=20&c=zmxOgUMZW1kB--D-g8RABi391Ma39zemxeUyjWFb7R0='
-        },
-        {
-            id: '1',
-            name: 'cocktail test',
-            image: 'https://media.istockphoto.com/id/502072256/photo/craft-cocktail-assortment-on-well-lit-bar.jpg?s=612x612&w=0&k=20&c=zmxOgUMZW1kB--D-g8RABi391Ma39zemxeUyjWFb7R0='
-        },
-        {
-            id: '1',
-            name: 'cocktail test',
-            image: 'https://media.istockphoto.com/id/502072256/photo/craft-cocktail-assortment-on-well-lit-bar.jpg?s=612x612&w=0&k=20&c=zmxOgUMZW1kB--D-g8RABi391Ma39zemxeUyjWFb7R0='
-        },
-        {
-            id: '1',
-            name: 'cocktail test',
-            image: 'https://media.istockphoto.com/id/502072256/photo/craft-cocktail-assortment-on-well-lit-bar.jpg?s=612x612&w=0&k=20&c=zmxOgUMZW1kB--D-g8RABi391Ma39zemxeUyjWFb7R0='
-        },
-        {
-            id: '1',
-            name: 'cocktail test',
-            image: 'https://media.istockphoto.com/id/502072256/photo/craft-cocktail-assortment-on-well-lit-bar.jpg?s=612x612&w=0&k=20&c=zmxOgUMZW1kB--D-g8RABi391Ma39zemxeUyjWFb7R0='
-        }
-    ]
+interface CocktailsContentProperties{
+    cocktails: Array<{
+        id: string,
+        name: string,
+        image: string
+    }>
+}
 
+export default function CocktailsContent({cocktails}: CocktailsContentProperties){
     return (
         <>
             <div

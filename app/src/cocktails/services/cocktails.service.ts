@@ -3,11 +3,11 @@ import axios from 'axios'
 const baseUrl = '/api/cocktails'
 
 interface CocktailsGetAllResponse{
-    cocktails: [
+    cocktails: Array<{
         id: string,
         name: string,
         image: string
-    ]
+    }>
 }
 
 const getAll = async (token: string): Promise<CocktailsGetAllResponse | undefined> => {
