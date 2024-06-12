@@ -15,18 +15,12 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "@nextui-org/react";
 
 export default function Menu(){
-    const [token, setToken] = useState('')
-    const [email, setEmail] = useState('')
-    const [username, setUsername] = useState('')
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
     const navigate = useNavigate()
 
     const logoutHandler = () => {
         window.localStorage.removeItem('loggedUser')
-        setToken('')
-        setUsername('')
-        setEmail('')
         navigate('/auth')
     }
 
