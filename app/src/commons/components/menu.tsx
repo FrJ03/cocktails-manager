@@ -1,21 +1,12 @@
-import { 
-  Navbar, 
-  NavbarBrand, 
-  NavbarContent, 
-  NavbarItem, 
-  NavbarMenu, 
-  NavbarMenuItem, 
-  NavbarMenuToggle
-} from "@nextui-org/navbar";
 import { Image } from "@nextui-org/image";
 import icon from "/icon.svg"
-import menu from '/menu-icon.svg'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "@nextui-org/react";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
 export default function Menu(){
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false)
     
     const navigate = useNavigate()
 
@@ -24,59 +15,82 @@ export default function Menu(){
         navigate('/auth')
     }
 
-    const menuIcon = <Image
-                      src={menu}
-                      alt='Cocktail Manager Icon'
-                      width={45}
-                    />
+    const handleNav = () => {
+        setMenuOpen(!menuOpen)
+    }
 
     return (
-        <Navbar className="shadow-md" isBordered onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
-            <NavbarContent>
-                <NavbarMenuToggle
-                    icon={menuIcon}
-                    className="sm:hidden"
-                    srOnlyText=' '
-                />
-                <NavbarBrand>
+        <nav className="fixed w-full h-24 shadow-xl bg-white">
+            <div className="flex justify-between items-center h-full w-full px-4 2xl:px-16">
+                <div className="flex">
                     <Image
                         src={icon}
                         alt='Cocktail Manager Icon'
                         width={45}
                     />
-                </NavbarBrand>
-            </NavbarContent>
-            <NavbarContent className="hidden sm:flex gap-4 p-2 rounded-t-xl hover:bg-main-color hover:text-white" justify="center">
-                <NavbarItem>
-                    <Link underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
-                        Cocktails
-                    </Link>
-                </NavbarItem>
-            </NavbarContent>
-            <NavbarContent justify="end">
-                <NavbarItem className="hidden lg:flex">
-                    <Link href="#">Login</Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <button 
-                        data-testid='logout-button'
-                        onClick={logoutHandler}
-                        className="text-white bg-main-color hover:bg-horved-main-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
-                    >Logout</button>
-                </NavbarItem>
-            </NavbarContent>
-            <NavbarMenu>
-                <NavbarMenuItem>
-                    <Link
-                        className="w-full"
-                        onPress={() => navigate('/cocktails')}
-                        size="lg"
-                    >
-                        Cocktails
-                    </Link>
-                </NavbarMenuItem>
-            </NavbarMenu>
-        </Navbar>
+                </div>
+                <div className="hidden sm:flex">
+                    <div>
+                        <ul className="hidden sm:flex">
+                        <Link className="ml-10 uppercase hover:border-main-color text-xl" underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
+                            <li className="hover:bg-horved-main-color hover:text-white p-2 rounded-lg text-xl">Cocktails</li>
+                        </Link>
+                        </ul>
+                    </div>
+                </div>
+                <div className="hidden sm:flex">
+                    <div>
+                        <button 
+                            data-testid='logout-button'
+                            onClick={logoutHandler}
+                            className="text-white bg-main-color hover:bg-horved-main-color font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
+                        >Logout</button>
+                    </div>
+                </div>
+                <div onClick={handleNav} className="sm:hidden cursor-pointer pl-24">
+                    <AiOutlineMenu size={25}/>
+                </div>
+            </div>
+            <div className={
+                menuOpen
+                ?
+                    "fixed left-0 top-0 w-[65%] sm:hidden h-screen bg-[#f0f0f0] p-10 ease-in duration-500"
+                :
+                    "fixed left-[-100%] top-0 p-10 ease-in duration-500"
+            }>
+                <div className="flex w-full items-center justify-end">
+                    <div onClick={handleNav} className="cursor-pointer">
+                        <AiOutlineClose size={25}/>
+                    </div>
+                </div>
+                <div className="flex-col justify-between">
+                    <div>
+                        <ul>
+                        <Link underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
+                            <li 
+                                className="py-4 cursor-pointer"
+                                onClick={() => setMenuOpen(false)}
+                            >
+                                Cocktails
+                            </li>
+                        </Link>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                        <Link underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
+                            <li
+                                className="py-4 cursor-pointer text-red-600"
+                                onClick={() => setMenuOpen(false)}
+                            >
+                                Logout
+                            </li>
+                        </Link>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
     );
 }
     
