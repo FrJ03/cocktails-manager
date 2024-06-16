@@ -16,4 +16,20 @@ export class CocktailsMongo implements Cocktails{
             throw new NotFoundError('cocktails_database_error')
         }
     }
+    async save(cocktail: Cocktail): Promise<Boolean>{
+        const cocktailResponse = await CocktailMongoPublisher.findOne({name: cocktail.name}).lean()
+        if(cocktailResponse == null){
+            const cocktailData = new CocktailMongoPublisher({
+                name: cocktail.name,
+                image: cocktail.image
+            })
+
+            await cocktailData.save()
+            
+            return true
+        }
+        else{
+            return false
+        }
+    }
 }
