@@ -6,7 +6,7 @@ import { Link } from "@nextui-org/react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
 export default function Menu(){
-    const [menuOpen, setMenuOpen] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false) 
     
     const navigate = useNavigate()
 
@@ -32,9 +32,12 @@ export default function Menu(){
                 <div className="hidden sm:flex">
                     <div>
                         <ul className="hidden sm:flex">
-                        <Link className="ml-10 uppercase hover:border-main-color text-xl" underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
-                            <li className="hover:bg-horved-main-color hover:text-white p-2 rounded-lg text-xl">Cocktails</li>
-                        </Link>
+                            <Link className="ml-10 uppercase hover:border-main-color text-xl" underline="hover" color="foreground" onClick={() => navigate('/cocktails')}>
+                                <li className="hover:bg-horved-main-color hover:text-white p-2 rounded-lg text-xl">Cocktails</li>
+                            </Link>
+                            <Link className="ml-10 uppercase hover:border-main-color text-xl" underline="hover" color="foreground" onClick={() => navigate('/add-cocktail')}>
+                                <li className="hover:bg-horved-main-color hover:text-white p-2 rounded-lg text-xl">Add Cocktail</li>
+                            </Link>
                         </ul>
                     </div>
                 </div>
@@ -74,11 +77,14 @@ export default function Menu(){
                                 Cocktails
                             </li>
                         </Link>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul>
                         <Link underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
+                            <li 
+                                className="py-4 cursor-pointer"
+                                onClick={() => setMenuOpen(false)}
+                            >
+                                Add Cocktail
+                            </li>
+                        </Link><Link underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
                             <li
                                 className="py-4 cursor-pointer text-red-600"
                                 onClick={() => setMenuOpen(false)}
