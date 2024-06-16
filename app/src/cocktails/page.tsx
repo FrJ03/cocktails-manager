@@ -32,12 +32,12 @@ export default function Cocktails (){
     })
 
     return (
-        <>
+        <div className='flex-col justify-between'>
             <Menu/>
-            <div className="flex justify-center m-5">
+            <div className="flex justify-center pt-32 pb-10">
                 <SearchBar/>
             </div>
             <CocktailsContent cocktails={cocktails}/>
-        </>
+        </div>
     )
 }

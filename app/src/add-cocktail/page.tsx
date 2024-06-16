@@ -21,6 +21,7 @@ export default function AddCocktail(){
 
     const onSubmit = async (name: string, image: string) => {
         await AddCocktailService.create(name, image, token)
+        navigate('/cocktails')
     }
 
     return (
