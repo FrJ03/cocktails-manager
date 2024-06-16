@@ -98,36 +98,95 @@ describe('CocktailsAPI', async () => {
                 await UserMongo.deleteOne({_id: userId})
             })
         })
-    })/*
-    describe('with cocktails saved', () => {
-        const cocktail1 = {
-            name: 'cocktail1',
-            image: 'cocktail1'
-        }
-        const cocktail2 = {
-            name: 'cocktail2',
-            image: 'cocktail2'
-        }
-        beforeEach(async () => {
-            const newCocktail = new CocktailMongoPublisher(cocktail1)
-
-            await newCocktail.save()
+    })
+    describe('create cocktail', () => {
+        it('before login', async  () => {
+            await api
+                .post('/api/cocktails')
+                .expect(401)
         })
-        it('with one cocktail', async () => {
-            const cocktails = await getCocktails.with()
+        describe('after login', async () => {
+            let userId: ObjectId
+            const password = 'test'
+            const passwordHash = await bcrypt.hash(password, 10)
+            const userData = {
+                username: 'test',
+                email: 'test@test.es',
+                password: passwordHash
+            }
+            let token = ''
+            beforeAll(async () => {
+                await mongoose.connect(config.MONGODB_URI || '');
 
-            expect(cocktails.cocktails.length).toBe(1)
-        })
-        it('with two cocktail', async () => {
-            const newCocktail = new CocktailMongoPublisher(cocktail2)
-            await newCocktail.save()
+                const user = new UserMongo(userData)
 
-            const cocktails = await getCocktails.with()
+                const userdbres = await user.save()
 
-            expect(cocktails.cocktails.length).toBe(2)
+                userId = userdbres._id
+
+                const userRequest = {
+                    email: userData.email,
+                    password: password
+                }
+
+                const response = await api
+                    .post('/api/login')
+                    .send(userRequest)
+                    .expect(200)
+
+                token = response.body.token
+            })
+            it('save a cocktail that not exists', async  () => {
+                await api
+                    .post('/api/cocktails')
+                    .send({
+                        name: 'test',
+                        image: 'test'
+                    })
+                    .set('Authorization', token)
+                    .expect(200)
+            })
+            describe('with existing cocktails', () => {
+                const cocktail1 = {
+                    name: 'cocktail1',
+                    image: 'cocktail1'
+                }
+                beforeEach(async () => {
+                    const newCocktail = new CocktailMongoPublisher(cocktail1)
+        
+                    await newCocktail.save()
+                })
+                it('save a cocktail that not exists', async () => {
+                    const cocktail2 = {
+                        name: 'cocktail2',
+                        image: 'cocktail2'
+                    }
+                    await api
+                        .post('/api/cocktails')
+                        .send(cocktail2)
+                        .set('Authorization', token)
+                        .expect(200)
+                })
+                it('save a cocktail that already exists', async () => {
+                    const cocktail2 = {
+                        id: '1',
+                        name: cocktail1.name,
+                        image: 'test'
+                    }
+
+                    await api
+                        .post('/api/cocktails')
+                        .send(cocktail2)
+                        .set('Authorization', token)
+                        .expect(400)
+                })
+                afterEach(async () => {
+                    await CocktailMongoPublisher.deleteMany({})
+                })
+            })
+            afterAll(async () => {
+                await UserMongo.deleteOne({_id: userId})
+            })
         })
-        afterEach(async () => {
-            await CocktailMongoPublisher.deleteMany({})
-        })
-    })*/
+    })
 })
