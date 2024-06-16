@@ -21,3 +21,16 @@ CocktailsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, functio
     const cocktails = yield container_1.container.getCocktails.with();
     res.status(200).send(cocktails);
 }));
+CocktailsRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cocktail = {
+        name: req.body.name,
+        image: req.body.image
+    };
+    const isCreated = yield container_1.container.createCocktail.with(cocktail);
+    if (isCreated) {
+        res.sendStatus(200);
+    }
+    else {
+        res.sendStatus(400);
+    }
+}));

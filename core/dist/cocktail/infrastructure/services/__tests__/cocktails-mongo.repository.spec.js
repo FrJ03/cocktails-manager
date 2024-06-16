@@ -16,6 +16,7 @@ const vitest_1 = require("vitest");
 const cocktails_mongo_repository_1 = require("../cocktails-mongo.repository");
 const mongoose_1 = __importDefault(require("mongoose"));
 const cocktail_publisher_1 = require("../../persistence/cocktail.publisher");
+const cocktail_factory_1 = require("../../../domain/model/cocktail.factory");
 (0, vitest_1.describe)('cocktails infrastructure in mongodb', () => {
     let cocktailsMongo;
     const databaseUrl = '<DATABASE URL>';
@@ -55,5 +56,47 @@ const cocktail_publisher_1 = require("../../persistence/cocktail.publisher");
                 yield cocktail_publisher_1.CocktailMongoPublisher.deleteMany({});
             }));
         });
+    });
+    (0, vitest_1.describe)('save cocktail', () => {
+        (0, vitest_1.it)('save a cocktail that not exists', () => __awaiter(void 0, void 0, void 0, function* () {
+            const cocktail = cocktail_factory_1.CocktailFactory.create({
+                id: '1',
+                name: 'test',
+                image: 'test'
+            });
+            const response = yield cocktailsMongo.save(cocktail);
+            (0, vitest_1.expect)(response).toBeTruthy();
+        }));
+        (0, vitest_1.describe)('with existing cocktails', () => {
+            const cocktail1 = {
+                name: 'cocktail1',
+                image: 'cocktail1'
+            };
+            (0, vitest_1.beforeEach)(() => __awaiter(void 0, void 0, void 0, function* () {
+                const newCocktail = new cocktail_publisher_1.CocktailMongoPublisher(cocktail1);
+                yield newCocktail.save();
+            }));
+            (0, vitest_1.it)('save a cocktail that not exists', () => __awaiter(void 0, void 0, void 0, function* () {
+                const cocktail2 = cocktail_factory_1.CocktailFactory.create({
+                    id: '1',
+                    name: 'test',
+                    image: 'test'
+                });
+                const response = yield cocktailsMongo.save(cocktail2);
+                (0, vitest_1.expect)(response).toBeTruthy();
+            }));
+            (0, vitest_1.it)('save a cocktail that already exists', () => __awaiter(void 0, void 0, void 0, function* () {
+                const cocktail2 = cocktail_factory_1.CocktailFactory.create({
+                    id: '1',
+                    name: cocktail1.name,
+                    image: 'test'
+                });
+                const response = yield cocktailsMongo.save(cocktail2);
+                (0, vitest_1.expect)(response).toBeFalsy();
+            }));
+        });
+        (0, vitest_1.afterEach)(() => __awaiter(void 0, void 0, void 0, function* () {
+            yield cocktail_publisher_1.CocktailMongoPublisher.deleteMany({});
+        }));
     });
 });

@@ -122,36 +122,87 @@ const api = (0, supertest_1.default)(app_1.app);
                 yield user_type_1.UserMongo.deleteOne({ _id: userId });
             }));
         }));
-    }); /*
-    describe('with cocktails saved', () => {
-        const cocktail1 = {
-            name: 'cocktail1',
-            image: 'cocktail1'
-        }
-        const cocktail2 = {
-            name: 'cocktail2',
-            image: 'cocktail2'
-        }
-        beforeEach(async () => {
-            const newCocktail = new CocktailMongoPublisher(cocktail1)
-
-            await newCocktail.save()
-        })
-        it('with one cocktail', async () => {
-            const cocktails = await getCocktails.with()
-
-            expect(cocktails.cocktails.length).toBe(1)
-        })
-        it('with two cocktail', async () => {
-            const newCocktail = new CocktailMongoPublisher(cocktail2)
-            await newCocktail.save()
-
-            const cocktails = await getCocktails.with()
-
-            expect(cocktails.cocktails.length).toBe(2)
-        })
-        afterEach(async () => {
-            await CocktailMongoPublisher.deleteMany({})
-        })
-    })*/
+    });
+    (0, vitest_1.describe)('create cocktail', () => {
+        (0, vitest_1.it)('before login', () => __awaiter(void 0, void 0, void 0, function* () {
+            yield api
+                .post('/api/cocktails')
+                .expect(401);
+        }));
+        (0, vitest_1.describe)('after login', () => __awaiter(void 0, void 0, void 0, function* () {
+            let userId;
+            const password = 'test';
+            const passwordHash = yield bcrypt_1.default.hash(password, 10);
+            const userData = {
+                username: 'test',
+                email: 'test@test.es',
+                password: passwordHash
+            };
+            let token = '';
+            (0, vitest_1.beforeAll)(() => __awaiter(void 0, void 0, void 0, function* () {
+                yield mongoose_1.default.connect(config.MONGODB_URI || '');
+                const user = new user_type_1.UserMongo(userData);
+                const userdbres = yield user.save();
+                userId = userdbres._id;
+                const userRequest = {
+                    email: userData.email,
+                    password: password
+                };
+                const response = yield api
+                    .post('/api/login')
+                    .send(userRequest)
+                    .expect(200);
+                token = response.body.token;
+            }));
+            (0, vitest_1.it)('save a cocktail that not exists', () => __awaiter(void 0, void 0, void 0, function* () {
+                yield api
+                    .post('/api/cocktails')
+                    .send({
+                    name: 'test',
+                    image: 'test'
+                })
+                    .set('Authorization', token)
+                    .expect(200);
+            }));
+            (0, vitest_1.describe)('with existing cocktails', () => {
+                const cocktail1 = {
+                    name: 'cocktail1',
+                    image: 'cocktail1'
+                };
+                (0, vitest_1.beforeEach)(() => __awaiter(void 0, void 0, void 0, function* () {
+                    const newCocktail = new cocktail_publisher_1.CocktailMongoPublisher(cocktail1);
+                    yield newCocktail.save();
+                }));
+                (0, vitest_1.it)('save a cocktail that not exists', () => __awaiter(void 0, void 0, void 0, function* () {
+                    const cocktail2 = {
+                        name: 'cocktail2',
+                        image: 'cocktail2'
+                    };
+                    yield api
+                        .post('/api/cocktails')
+                        .send(cocktail2)
+                        .set('Authorization', token)
+                        .expect(200);
+                }));
+                (0, vitest_1.it)('save a cocktail that already exists', () => __awaiter(void 0, void 0, void 0, function* () {
+                    const cocktail2 = {
+                        id: '1',
+                        name: cocktail1.name,
+                        image: 'test'
+                    };
+                    yield api
+                        .post('/api/cocktails')
+                        .send(cocktail2)
+                        .set('Authorization', token)
+                        .expect(400);
+                }));
+                (0, vitest_1.afterEach)(() => __awaiter(void 0, void 0, void 0, function* () {
+                    yield cocktail_publisher_1.CocktailMongoPublisher.deleteMany({});
+                }));
+            });
+            (0, vitest_1.afterAll)(() => __awaiter(void 0, void 0, void 0, function* () {
+                yield user_type_1.UserMongo.deleteOne({ _id: userId });
+            }));
+        }));
+    });
 }));

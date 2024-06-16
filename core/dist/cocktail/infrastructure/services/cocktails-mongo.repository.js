@@ -27,5 +27,21 @@ class CocktailsMongo {
             }
         });
     }
+    save(cocktail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cocktailResponse = yield cocktail_publisher_1.CocktailMongoPublisher.findOne({ name: cocktail.name }).lean();
+            if (cocktailResponse == null) {
+                const cocktailData = new cocktail_publisher_1.CocktailMongoPublisher({
+                    name: cocktail.name,
+                    image: cocktail.image
+                });
+                yield cocktailData.save();
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    }
 }
 exports.CocktailsMongo = CocktailsMongo;
