@@ -31,13 +31,17 @@ export default function Cocktails (){
         }
     })
 
+    const deleteCocktail = (id: string) => {
+        cocktailsServices.deleteCocktail(id, token)
+    }
+
     return (
         <div className='flex-col justify-between'>
             <Menu/>
             <div className="flex justify-center pt-32 pb-10">
                 <SearchBar/>
             </div>
-            <CocktailsContent cocktails={cocktails}/>
+            <CocktailsContent cocktails={cocktails} deleteCocktail={deleteCocktail}/>
         </div>
     )
 }

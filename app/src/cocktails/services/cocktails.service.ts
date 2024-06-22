@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = '/api/cocktails'
+const baseUrl = 'http://localhost:4000/api/cocktails'
 
 interface CocktailsGetAllResponse{
     cocktails: Array<{
@@ -21,5 +21,16 @@ const getAll = async (token: string): Promise<CocktailsGetAllResponse | undefine
     
 }
 
-export { getAll }
+const deleteCocktail = async (id: string, token: string): Promise<Boolean> => {
+    try {
+        const response = await axios.delete(`${baseUrl}/?id=${id}`, {headers: {authorization: token}})
+
+        return response.status === 200
+    } catch (error: any) {
+        console.error(error.response.status)
+        return false
+    }
+}
+
+export { getAll, deleteCocktail}
 export type { CocktailsGetAllResponse }
