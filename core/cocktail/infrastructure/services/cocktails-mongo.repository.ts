@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { NotFoundError } from "../../../commons/domain/errors/not-found-error";
 import { Cocktail } from "../../domain/model/cocktail.entity";
 import { Cocktails } from "../../domain/services/cocktails.repository";
@@ -26,6 +27,16 @@ export class CocktailsMongo implements Cocktails{
 
             await cocktailData.save()
             
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    async delete(id: string): Promise<Boolean>{
+        const cocktailId = new Types.ObjectId(id)
+        const cocktailResponse = await CocktailMongoPublisher.deleteOne({_id: cocktailId}).lean()
+        if(cocktailResponse.acknowledged && cocktailResponse.deletedCount > 0){            
             return true
         }
         else{
