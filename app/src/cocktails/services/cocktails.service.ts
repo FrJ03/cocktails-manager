@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:4000/api/cocktails'
+const baseUrl = '/api/cocktails'
 
 interface CocktailsGetAllResponse{
     cocktails: Array<{
