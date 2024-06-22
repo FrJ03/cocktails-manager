@@ -7,7 +7,7 @@ import { CocktailFactory } from '../../../domain/model/cocktail.factory'
 
 describe('cocktails infrastructure in mongodb', () => {
     let cocktailsMongo: CocktailsMongo
-    const databaseUrl = 'mongodb+srv://fadministrator:hxTYpKdqGQLSEjL1@cocktails-manager.aawlrwo.mongodb.net/test?retryWrites=true&w=majority&appName=cocktails-manager'
+    const databaseUrl = '<DATABASE URL>'
     beforeAll(async() => {
         await mongoose.connect(databaseUrl);
 
