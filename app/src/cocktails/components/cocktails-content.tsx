@@ -5,10 +5,11 @@ interface CocktailsContentProperties{
         id: string,
         name: string,
         image: string
-    }>
+    }>,
+    deleteCocktail: (id: string) => void
 }
 
-export default function CocktailsContent({cocktails}: CocktailsContentProperties){
+export default function CocktailsContent({cocktails, deleteCocktail}: CocktailsContentProperties){
     return (
         <>
             <div
@@ -16,7 +17,7 @@ export default function CocktailsContent({cocktails}: CocktailsContentProperties
                 role="grid"
             >
                 {cocktails.map((cocktail) => (
-                    <CocktailCard cocktail={cocktail} key={cocktail.id} />
+                    <CocktailCard cocktail={cocktail} deleteCocktail={deleteCocktail} key={cocktail.id} />
                 ))}
             </div>
         </>
