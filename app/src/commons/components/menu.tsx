@@ -77,14 +77,14 @@ export default function Menu(){
                                 Cocktails
                             </li>
                         </Link>
-                        <Link underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
+                        <Link underline="hover" color="foreground" onPress={() => navigate('/add-cocktail')}>
                             <li 
                                 className="py-4 cursor-pointer"
                                 onClick={() => setMenuOpen(false)}
                             >
                                 Add Cocktail
                             </li>
-                        </Link><Link underline="hover" color="foreground" onPress={() => navigate('/cocktails')}>
+                        </Link><Link underline="hover" color="foreground" onPress={logoutHandler}>
                             <li
                                 className="py-4 cursor-pointer text-red-600"
                                 onClick={() => setMenuOpen(false)}
