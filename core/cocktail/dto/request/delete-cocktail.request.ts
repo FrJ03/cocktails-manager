@@ -1,8 +1,7 @@
 import { DeepReadonly } from "ts-essentials"
 
 type DeleteCocktailRequest = DeepReadonly<{
-    name: string,
-    image: string
+    id: string
 }>
 
 const DeleteCocktailRequest = {
