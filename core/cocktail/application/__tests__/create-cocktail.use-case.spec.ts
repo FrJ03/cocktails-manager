@@ -4,10 +4,11 @@ import { CreateCocktailUseCase } from "../create-cocktail.use-case"
 import { CocktailsMongo } from "../../infrastructure/services/cocktails-mongo.repository"
 import { CreateCocktailRequest } from "../../dto/request/create-cocktail.request"
 import { CocktailMongoPublisher } from "../../infrastructure/persistence/cocktail.publisher"
+import * as config from '../../../commons/utils/config'
 
 describe('create cocktail use case', () => {
     let createCocktail: CreateCocktailUseCase
-    const databaseUrl = '<DATABASE URL>'
+    const databaseUrl = config.MONGODB_URI || ''
     beforeAll(async() => {
         await mongoose.connect(databaseUrl);
 

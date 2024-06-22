@@ -4,10 +4,11 @@ import { Cocktail } from '../../../domain/model/cocktail.entity'
 import mongoose, { ObjectId } from 'mongoose'
 import { CocktailMongoPublisher } from '../../persistence/cocktail.publisher'
 import { CocktailFactory } from '../../../domain/model/cocktail.factory'
+import * as config from '../../../../commons/utils/config'
 
 describe('cocktails infrastructure in mongodb', () => {
     let cocktailsMongo: CocktailsMongo
-    const databaseUrl = '<DATABASE URL>'
+    const databaseUrl = config.MONGODB_URI || ''
     beforeAll(async() => {
         await mongoose.connect(databaseUrl);
 

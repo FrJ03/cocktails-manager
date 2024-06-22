@@ -3,10 +3,11 @@ import { GetCocktailsUseCase } from '../get-cocktails.use-case'
 import mongoose from 'mongoose'
 import { CocktailMongoPublisher } from '../../infrastructure/persistence/cocktail.publisher'
 import { CocktailsMongo } from '../../infrastructure/services/cocktails-mongo.repository'
+import * as config from '../../../commons/utils/config'
 
 describe('get all cocktails use case', () => {
     let getCocktails: GetCocktailsUseCase
-    const databaseUrl = '<DATABASE URL>'
+    const databaseUrl = config.MONGODB_URI || ''
     beforeAll(async() => {
         await mongoose.connect(databaseUrl);
 
