@@ -189,4 +189,79 @@ describe('CocktailsAPI', async () => {
             })
         })
     })
+    describe('delete cocktail', () => {
+        it('before login', async  () => {
+            await api
+                .delete('/api/cocktails')
+                .expect(401)
+        })
+        describe('after login', async () => {
+            let userId: ObjectId
+            const password = 'test'
+            const passwordHash = await bcrypt.hash(password, 10)
+            const userData = {
+                username: 'test',
+                email: 'test@test.es',
+                password: passwordHash
+            }
+            let token = ''
+            const cocktail1 = {
+                name: 'cocktail1',
+                image: 'cocktail1'
+            }
+            let cocktailId:ObjectId
+            beforeAll(async () => {
+                await mongoose.connect(config.MONGODB_URI || '');
+
+                const user = new UserMongo(userData)
+
+                const userdbres = await user.save()
+
+                userId = userdbres._id
+
+                const userRequest = {
+                    email: userData.email,
+                    password: password
+                }
+
+                const response = await api
+                    .post('/api/login')
+                    .send(userRequest)
+                    .expect(200)
+
+                token = response.body.token
+            })
+            beforeEach(async () => {
+                const newCocktail = new CocktailMongoPublisher(cocktail1)
+    
+                await newCocktail.save()
+
+                cocktailId = newCocktail._id
+            })
+            it('delete a cocktail that exists', async  () => {
+                await api
+                    .delete(`/api/cocktails/?id=${cocktailId}`)
+                    .set('Authorization', token)
+                    .expect(200)
+            })
+            it('delete a cocktail that not exists', async  () => {
+                await api
+                    .delete(`/api/cocktails/?id=000000000000000000000000`)
+                    .set('Authorization', token)
+                    .expect(404)
+            })
+            it('delete a cocktail without id', async  () => {
+                await api
+                    .delete(`/api/cocktails`)
+                    .set('Authorization', token)
+                    .expect(400)
+            })
+            afterEach(async () => {
+                await CocktailMongoPublisher.deleteMany({})
+            })
+            afterAll(async () => {
+                await UserMongo.deleteOne({_id: userId})
+            })
+        })
+    })
 })

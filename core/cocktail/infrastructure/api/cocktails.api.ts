@@ -27,4 +27,20 @@ CocktailsRouter.post('/', async (req: Request, res: Response) => {
     }
 })
 
+CocktailsRouter.delete('/', async (req: Request, res:Response) => {
+    if(req.query.id !== undefined){
+        const isDeleted = await container.deleteCocktail.with({id: req.query.id.toString()})
+
+        if(isDeleted){
+            res.sendStatus(200)
+        }
+        else{
+            res.sendStatus(404)
+        }
+    }
+    else{
+        res.sendStatus(400)
+    }
+})
+
 export { CocktailsRouter }
