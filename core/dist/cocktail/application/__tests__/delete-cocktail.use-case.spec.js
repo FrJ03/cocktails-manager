@@ -35,55 +35,56 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
 const vitest_1 = require("vitest");
-const create_cocktail_use_case_1 = require("../create-cocktail.use-case");
-const cocktails_mongo_repository_1 = require("../../infrastructure/services/cocktails-mongo.repository");
-const cocktail_publisher_1 = require("../../infrastructure/persistence/cocktail.publisher");
+const mongoose_1 = __importDefault(require("mongoose"));
 const config = __importStar(require("../../../commons/utils/config"));
-(0, vitest_1.describe)('create cocktail use case', () => {
-    let createCocktail;
+const cocktail_publisher_1 = require("../../infrastructure/persistence/cocktail.publisher");
+const delete_cocktail_use_case_1 = require("../delete-cocktail.use-case");
+const cocktails_mongo_repository_1 = require("../../infrastructure/services/cocktails-mongo.repository");
+(0, vitest_1.describe)('cocktails infrastructure in mongodb', () => {
+    let deleteCocktail;
     const databaseUrl = config.MONGODB_URI || '';
     (0, vitest_1.beforeAll)(() => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.default.connect(databaseUrl);
-        createCocktail = new create_cocktail_use_case_1.CreateCocktailUseCase(new cocktails_mongo_repository_1.CocktailsMongo);
+        deleteCocktail = new delete_cocktail_use_case_1.DeleteCocktailUseCase(new cocktails_mongo_repository_1.CocktailsMongo());
     }));
-    (0, vitest_1.it)('save a cocktail that not exists', () => __awaiter(void 0, void 0, void 0, function* () {
-        const cocktail = {
-            name: 'test',
-            image: 'test'
-        };
-        const response = yield createCocktail.with(cocktail);
-        (0, vitest_1.expect)(response).toBeTruthy();
-    }));
-    (0, vitest_1.describe)('with existing cocktails', () => {
+    (0, vitest_1.describe)('delete cocktail', () => {
         const cocktail1 = {
             name: 'cocktail1',
             image: 'cocktail1'
         };
+        const cocktail2 = {
+            name: 'cocktail2',
+            image: 'cocktail2'
+        };
+        let id1;
         (0, vitest_1.beforeEach)(() => __awaiter(void 0, void 0, void 0, function* () {
-            const newCocktail = new cocktail_publisher_1.CocktailMongoPublisher(cocktail1);
-            yield newCocktail.save();
+            const newCocktail1 = new cocktail_publisher_1.CocktailMongoPublisher(cocktail1);
+            yield newCocktail1.save();
+            const newCocktail2 = new cocktail_publisher_1.CocktailMongoPublisher(cocktail2);
+            yield newCocktail2.save();
+            id1 = newCocktail1._id;
         }));
-        (0, vitest_1.it)('save a cocktail that not exists', () => __awaiter(void 0, void 0, void 0, function* () {
-            const cocktail2 = {
-                name: 'test',
-                image: 'test'
+        (0, vitest_1.it)('delete an existing cocktail', () => __awaiter(void 0, void 0, void 0, function* () {
+            const request = {
+                id: id1.toString()
             };
-            const response = yield createCocktail.with(cocktail2);
-            (0, vitest_1.expect)(response).toBeTruthy();
+            const deleted = yield deleteCocktail.with(request);
+            const allCocktails = yield cocktail_publisher_1.CocktailMongoPublisher.find({}).lean();
+            (0, vitest_1.expect)(deleted).toBeTruthy();
+            (0, vitest_1.expect)(allCocktails.length).toBe(1);
         }));
-        (0, vitest_1.it)('save a cocktail that already exists', () => __awaiter(void 0, void 0, void 0, function* () {
-            const cocktail2 = {
-                id: '1',
-                name: cocktail1.name,
-                image: 'test'
+        (0, vitest_1.it)('delete a not existing cocktail', () => __awaiter(void 0, void 0, void 0, function* () {
+            const request = {
+                id: '000000000000000000000000'
             };
-            const response = yield createCocktail.with(cocktail2);
-            (0, vitest_1.expect)(response).toBeFalsy();
+            const deleted = yield deleteCocktail.with(request);
+            const allCocktails = yield cocktail_publisher_1.CocktailMongoPublisher.find({}).lean();
+            (0, vitest_1.expect)(deleted).toBeFalsy();
+            (0, vitest_1.expect)(allCocktails.length).toBe(2);
+        }));
+        (0, vitest_1.afterEach)(() => __awaiter(void 0, void 0, void 0, function* () {
+            yield cocktail_publisher_1.CocktailMongoPublisher.deleteMany({});
         }));
     });
-    (0, vitest_1.afterEach)(() => __awaiter(void 0, void 0, void 0, function* () {
-        yield cocktail_publisher_1.CocktailMongoPublisher.deleteMany({});
-    }));
 });

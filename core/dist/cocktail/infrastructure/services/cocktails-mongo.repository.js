@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CocktailsMongo = void 0;
+const mongoose_1 = require("mongoose");
 const not_found_error_1 = require("../../../commons/domain/errors/not-found-error");
 const cocktail_data_mapper_1 = require("../persistence/cocktail.data-mapper");
 const cocktail_publisher_1 = require("../persistence/cocktail.publisher");
@@ -36,6 +37,18 @@ class CocktailsMongo {
                     image: cocktail.image
                 });
                 yield cocktailData.save();
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cocktailId = new mongoose_1.Types.ObjectId(id);
+            const cocktailResponse = yield cocktail_publisher_1.CocktailMongoPublisher.deleteOne({ _id: cocktailId }).lean();
+            if (cocktailResponse.acknowledged && cocktailResponse.deletedCount > 0) {
                 return true;
             }
             else {

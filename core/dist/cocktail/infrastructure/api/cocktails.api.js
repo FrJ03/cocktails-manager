@@ -34,3 +34,17 @@ CocktailsRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.sendStatus(400);
     }
 }));
+CocktailsRouter.delete('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.query.id !== undefined) {
+        const isDeleted = yield container_1.container.deleteCocktail.with({ id: req.query.id.toString() });
+        if (isDeleted) {
+            res.sendStatus(200);
+        }
+        else {
+            res.sendStatus(404);
+        }
+    }
+    else {
+        res.sendStatus(400);
+    }
+}));

@@ -205,4 +205,71 @@ const api = (0, supertest_1.default)(app_1.app);
             }));
         }));
     });
+    (0, vitest_1.describe)('delete cocktail', () => {
+        (0, vitest_1.it)('before login', () => __awaiter(void 0, void 0, void 0, function* () {
+            yield api
+                .delete('/api/cocktails')
+                .expect(401);
+        }));
+        (0, vitest_1.describe)('after login', () => __awaiter(void 0, void 0, void 0, function* () {
+            let userId;
+            const password = 'test';
+            const passwordHash = yield bcrypt_1.default.hash(password, 10);
+            const userData = {
+                username: 'test',
+                email: 'test@test.es',
+                password: passwordHash
+            };
+            let token = '';
+            const cocktail1 = {
+                name: 'cocktail1',
+                image: 'cocktail1'
+            };
+            let cocktailId;
+            (0, vitest_1.beforeAll)(() => __awaiter(void 0, void 0, void 0, function* () {
+                yield mongoose_1.default.connect(config.MONGODB_URI || '');
+                const user = new user_type_1.UserMongo(userData);
+                const userdbres = yield user.save();
+                userId = userdbres._id;
+                const userRequest = {
+                    email: userData.email,
+                    password: password
+                };
+                const response = yield api
+                    .post('/api/login')
+                    .send(userRequest)
+                    .expect(200);
+                token = response.body.token;
+            }));
+            (0, vitest_1.beforeEach)(() => __awaiter(void 0, void 0, void 0, function* () {
+                const newCocktail = new cocktail_publisher_1.CocktailMongoPublisher(cocktail1);
+                yield newCocktail.save();
+                cocktailId = newCocktail._id;
+            }));
+            (0, vitest_1.it)('delete a cocktail that exists', () => __awaiter(void 0, void 0, void 0, function* () {
+                yield api
+                    .delete(`/api/cocktails/?id=${cocktailId}`)
+                    .set('Authorization', token)
+                    .expect(200);
+            }));
+            (0, vitest_1.it)('delete a cocktail that not exists', () => __awaiter(void 0, void 0, void 0, function* () {
+                yield api
+                    .delete(`/api/cocktails/?id=000000000000000000000000`)
+                    .set('Authorization', token)
+                    .expect(404);
+            }));
+            (0, vitest_1.it)('delete a cocktail without id', () => __awaiter(void 0, void 0, void 0, function* () {
+                yield api
+                    .delete(`/api/cocktails`)
+                    .set('Authorization', token)
+                    .expect(400);
+            }));
+            (0, vitest_1.afterEach)(() => __awaiter(void 0, void 0, void 0, function* () {
+                yield cocktail_publisher_1.CocktailMongoPublisher.deleteMany({});
+            }));
+            (0, vitest_1.afterAll)(() => __awaiter(void 0, void 0, void 0, function* () {
+                yield user_type_1.UserMongo.deleteOne({ _id: userId });
+            }));
+        }));
+    });
 }));
