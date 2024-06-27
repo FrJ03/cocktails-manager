@@ -1,7 +1,7 @@
 import { DeepReadonly } from "ts-essentials";
 
-type GetCocktailRecipeRequest = DeepReadonly<{
+type GetCocktailRecipesRequest = DeepReadonly<{
     cocktailId: string
 }>
 
-export { GetCocktailRecipeRequest }
+export { GetCocktailRecipesRequest }
